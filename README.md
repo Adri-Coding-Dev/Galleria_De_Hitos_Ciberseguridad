@@ -61,13 +61,14 @@ Este proyecto permite **añadir, eliminar, filtrar y gestionar trofeos**, manten
 ---
 
 ## 📂 Estructura de Archivos
-
+```bash
 /Gallery_Hacking
 │
 ├─ index.html # Página principal
 ├─ style.css # Diseño de toda la pagina web
 ├─ capturas/ # Carpeta para imágenes y capturas
 └─ script.js # Script de toda la pagina (Separacion en posibles actualizaciones)
+```
 
 ## 🖼️ Capturas de Pantalla
 
@@ -89,9 +90,9 @@ localStorage para persistencia de datos
 📝 Uso
 Clonar el repositorio:
 
-bash
-Copiar código
+```bash
 git clone [https://github.com/tu-usuario/Hacktrophy.git](https://github.com/Adri-Coding-Dev/Galleria_De_Hitos_Ciberseguridad)
+```
 Abrir index.html en tu navegador.
 
 Añadir, filtrar y gestionar trofeos desde la interfaz.
