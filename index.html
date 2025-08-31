@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo de Trofeos de Ciberseguridad</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🏆 MUSEO DE TROFEOS DE CIBERSEGURIDAD 🏆</h1>
+            <p>Colección de logros y conquistas en el mundo del hacking ético</p>
+        </header>
+
+        <div class="controls">
+            <div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    ➕ Añadir Trofeo
+                </button>
+                <button class="btn btn-secondary" onclick="exportTrophies()">
+                    📤 Exportar
+                </button>
+                <input type="file" id="importFile" accept=".json" onchange="importTrophies()" style="display: none">
+                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">
+                    📥 Importar
+                </button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Categoría:</label>
+                    <select id="categoryFilter" onchange="filterTrophies()">
+                        <option value="">Todas</option>
+                        <option value="SQL Injection">SQL Injection</option>
+                        <option value="Web Hacking">Web Hacking</option>
+                        <option value="Pentesting">Pentesting</option>
+                        <option value="Forensics">Forensics</option>
+                        <option value="Cryptography">Cryptography</option>
+                        <option value="Reverse Engineering">Reverse Engineering</option>
+                        <option value="OSINT">OSINT</option>
+                        <option value="Social Engineering">Social Engineering</option>
+                        <option value="Malware Analysis">Malware Analysis</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Dificultad:</label>
+                    <select id="difficultyFilter" onchange="filterTrophies()">
+                        <option value="">Todas</option>
+                        <option value="principiante">Principiante</option>
+                        <option value="facil">Fácil</option>
+                        <option value="medio">Medio</option>
+                        <option value="avanzado">Avanzado</option>
+                        <option value="experto">Experto</option>
+                        <option value="master">Master</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="trophiesContainer" class="trophies-grid"></div>
+    </div>
+
+    <!-- Modal para añadir/editar trofeo -->
+    <div id="trophyModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Añadir Nuevo Trofeo</h2>
+            <form id="trophyForm">
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Imagen Representativa</label>
+                    <input type="file" id="image" accept="image/*">
+                    <div id="imagePreview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Categorías</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat1" value="SQL Injection">
+                            <label for="cat1">SQL Injection</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat2" value="Web Hacking">
+                            <label for="cat1">Web Hacking</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat3" value="Pentesting">
+                            <label for="cat2">Pentesting</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat4" value="Forensics">
+                            <label for="cat3">Forensics</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat5" value="Cryptography">
+                            <label for="cat4">Cryptography</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat6" value="Reverse Engineering">
+                            <label for="cat5">Reverse Engineering</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat7" value="OSINT">
+                            <label for="cat6">OSINT</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat8" value="Social Engineering">
+                            <label for="cat7">Social Engineering</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cat9" value="Malware Analysis">
+                            <label for="cat8">Malware Analysis</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Dificultad *</label>
+                    <select id="difficulty" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="principiante">Principiante</option>
+                        <option value="facil">Fácil</option>
+                        <option value="medio">Medio</option>
+                        <option value="avanzado">Avanzado</option>
+                        <option value="experto">Experto</option>
+                        <option value="master">Master</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha *</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Resumen</label>
+                    <textarea id="summary" rows="3" placeholder="Breve descripción del trofeo..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Experiencia Adquirida</label>
+                    <textarea id="experience" rows="4" placeholder="¿Qué aprendiste? ¿Qué técnicas utilizaste?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Capturas del Write-up</label>
+                    <input type="file" id="screenshots" accept="image/*" multiple>
+                    <div id="screenshotsPreview" class="screenshots-preview"></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de detalles del trofeo -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <h2 id="detailsTitle"></h2>
+            <div id="detailsContent"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeDetailsModal()">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="viewWriteupBtn">Ver Write-up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Write-up -->
+    <div id="writeupPage" class="writeup-page">
+        <button class="btn btn-secondary back-btn" onclick="closeWriteup()">← Volver</button>
+        <div class="writeup-content">
+            <div class="writeup-header">
+                <h1 id="writeupTitle" class="writeup-title"></h1>
+                <div id="writeupMeta"></div>
+            </div>
+            <div id="writeupExperience"></div>
+            <div id="writeupScreenshots" class="writeup-screenshots"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
